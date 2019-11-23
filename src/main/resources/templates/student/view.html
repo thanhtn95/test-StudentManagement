@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${student}">
+    <p>First Name:&nbsp;<input readonly th:field="*{firstName}"></p>
+    <p>Last Name:&nbsp;<input readonly th:field="*{lastName}"></p>
+    <p>Date Of Birth:&nbsp;<input readonly type="date" th:field="*{dateOfBirth}"></p>
+    <p>Address:&nbsp;<input readonly th:field="*{address}"></p>
+    <p>Sex:&nbsp;<select disabled th:field="*{sex}">
+        <option value="Male" th:selected="(${student.getSex().equals('Male')})">Male</option>
+        <option value="Female" th:selected="(${student.getSex().equals('Female')})" >Female</option>
+        <option value="Other" th:selected="(${student.getSex().equals('Other')})">Other</option>
+    </select></p>
+    <p>Phone Number:&nbsp;<input readonly th:field="*{phone}"></p>
+    <p>Class:&nbsp;<input readonly th:field="*{classRoom}"></p>
+</form>
+<p><a th:href="@{/student/studentList}"><button type="button"> Back</button></a></p>
+</body>
+</html>

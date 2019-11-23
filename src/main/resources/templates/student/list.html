@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    table {
+        margin: auto;
+        border: 2px solid black;
+        margin-left: 30px;
+    }
+    tr {
+        border: 2px solid black;
+        margin: auto;
+        padding: 15px;
+    }
+    td {
+        margin: auto;
+        border: 2px solid black;
+        text-align: center;
+        padding: 15px;
+        font-weight: bolder;
+    }
+    form{
+        margin-top: 15px;
+    }
+</style>
+<body>
+<form th:action="@{ByClass}" onchange="this.submit()">
+    <a>Search By Class:&nbsp;</a>
+    <select name="class">
+        <option value=-1> </option>
+        <option th:each="classroom :${classrooms}" th:value="${classroom.getId()}" th:text="${classroom.getName()}" th:selected="(${classroom.getId()} == ${class})"></option>
+    </select>
+</form>
+<form th:action="@{sortByFirstName}" onchange="this.submit()">
+    <a>Sort By First Name:&nbsp;</a>
+    <select name="sortDirection1">
+        <option value="no"></option>
+        <option value="asc" th:selected="(${sortDirection1} == 'asc')">ASC</option>
+        <option value="desc" th:selected="(${sortDirection1} == 'desc')">DESC</option>
+    </select>
+</form>
+<form th:action="@{sortByLastName}" onchange="this.submit()">
+    <a>Sort By First Name:&nbsp;</a>
+    <select name="sortDirection2">
+        <option value="no"></option>
+        <option value="asc" th:selected="(${sortDirection2} == 'asc')">ASC</option>
+        <option value="desc" th:selected="(${sortDirection2} == 'desc')">DESC</option>
+    </select>
+</form>
+<p><a th:href="@{/classroom/classroomList}"><button type="button">Go To Class List</button></a></p>
+<p><a th:href="@{''+'newStudent'}"><button type="button">Add New Student</button></a></p>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Date Of Birth</td>
+        <td>Address</td>
+        <td>Sex</td>
+        <td>Phone</td>
+        <td>Class</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr th:each="student: ${students}">
+        <td th:text="${student.getId()}"></td>
+        <td><a th:href="@{__${student.getId()}__/viewStudent}" th:text="${student.getFirstName()}"></a></td>
+        <td th:text="${student.getLastName()}"></td>
+        <td th:text="${student.getDateOfBirth()}"></td>
+        <td th:text="${student.getAddress()}"></td>
+        <td th:text="${student.getSex()}"></td>
+        <td th:text="${student.getPhone()}"></td>
+        <td th:text="${student.getClassRoom().getName()}"></td>
+        <td><a th:href="@{__${student.getId()}__/editStudent}"><button type="button">Edit</button></a></td>
+        <td><a th:href="@{__${student.getId()}__/deleteStudent}" onclick="return confirm('Are You Sure?')"><button type="button">Delete</button></a></td>
+    </tr>
+</table>
+<div th:if="!${class}and!${sortDirection1}and!${sortDirection2}" style="margin-top: 15px">
+    <a th:href="@{''(page=${students.number - 1})}" th:if="${students.hasPrevious()}">Previous</a>
+    <span th:text="${students.number + 1}"></span>/<span th:text="${students.totalPages}"></span>
+    <a th:href="@{''(page=${students.number + 1})}" th:if="${students.hasNext()}">Next</a>
+</div>
+<div th:if="${class}" style="margin-top: 15px">
+    <a th:href="@{''(class=${class},page=${students.number - 1})}" th:if="${students.hasPrevious()}">Previous</a>
+    <span th:text="${students.number + 1}"></span>/<span th:text="${students.totalPages}"></span>
+    <a th:href="@{''(class=${class},page=${students.number + 1})}" th:if="${students.hasNext()}">Next</a>
+</div>
+<div th:if="${sortDirection1}" style="margin-top: 15px">
+    <a th:href="@{''(sortDirection1=${sortDirection1},page=${students.number - 1})}" th:if="${students.hasPrevious()}">Previous</a>
+    <span th:text="${students.number + 1}"></span>/<span th:text="${students.totalPages}"></span>
+    <a th:href="@{''(sortDirection1=${sortDirection1},page=${students.number + 1})}" th:if="${students.hasNext()}">Next</a>
+</div>
+<div th:if="${sortDirection2}" style="margin-top: 15px">
+    <a th:href="@{''(sortDirection2=${sortDirection2},page=${students.number - 1})}" th:if="${students.hasPrevious()}">Previous</a>
+    <span th:text="${students.number + 1}"></span>/<span th:text="${students.totalPages}"></span>
+    <a th:href="@{''(sortDirection2=${sortDirection2},page=${students.number + 1})}" th:if="${students.hasNext()}">Next</a>
+</div>
+</body>
+</html>

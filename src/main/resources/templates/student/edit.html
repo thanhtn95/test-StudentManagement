@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${student}" th:action="@{/student/doEditStudent}" method="post">
+    <input hidden th:field="*{id}">
+    <p>First Name:&nbsp;<input th:field="*{firstName}"></p>
+    <p>Last Name:&nbsp;<input th:field="*{lastName}"></p>
+    <p>Date Of Birth:&nbsp;<input type="date" th:field="*{dateOfBirth}"></p>
+    <p>Address:&nbsp;<input th:field="*{address}"></p>
+    <p>Sex:&nbsp;<select th:field="*{sex}">
+        <option value="Male" th:selected="(${student.getSex().equals('Male')})">Male</option>
+        <option value="Female" th:selected="(${student.getSex().equals('Female')})" >Female</option>
+        <option value="Other" th:selected="(${student.getSex().equals('Other')})">Other</option>
+    </select></p>
+    <p>Phone Number:&nbsp;<input th:field="*{phone}"></p>
+    <p><select th:field="*{classRoom}">
+        <option th:each="class: ${classrooms}" th:value="${class.getId()}" th:text="${class.getName()}"></option>
+    </select></p>
+    <p><button type="submit" onclick="return confirm('Are You Sure?')">Update Student Info</button></p>
+</form>
+<p><a th:href="@{/student/studentList}"><button type="button"> Back</button></a></p>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${classroom}" th:href="@{newClass}" th:method="post">
+    <p>Name:&nbsp;<input th:field="*{name}"></p>
+    <p>Desciption:&nbsp;<input th:field="*{description}"></p>
+    <p><button type="submit" onclick="return confirm('Are You Sure?')"> Add New Class</button></p>
+</form>
+<p><a th:href="@{/classroom/classroomList}"><button type="button"> Back</button></a></p>
+</body>
+</html>

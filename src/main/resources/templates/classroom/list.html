@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    table {
+        margin: auto;
+        border: 2px solid black;
+        margin-left: 30px;
+    }
+    tr {
+        border: 2px solid black;
+        margin: auto;
+        padding: 15px;
+    }
+    td {
+        margin: auto;
+        border: 2px solid black;
+        text-align: center;
+        padding: 15px;
+        font-weight: bolder;
+    }
+    form{
+        margin-top: 15px;
+    }
+</style>
+<body>
+<p><a th:href="@{/student/studentList}"><button type="button">Go To Student List</button></a></p>
+<p><a th:href="@{''+'newClass'}"><button type="button">Add New Class</button></a></p>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>Class Name</td>
+        <td>Description</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr th:each="class: ${classrooms}">
+        <td th:text="${class.getId()}"></td>
+        <td><a th:href="@{__${class.getId()}__/viewClassRoom}" th:text="${class.getName()}"></a></td>
+        <td th:text="${class.getDescription()}"></td>
+        <td><a th:href="@{__${class.getId()}__/editClassRoom}"><button type="button">Edit</button></a></td>
+        <td><a th:href="@{__${class.getId()}__/deleteClassRoom}" onclick="return confirm('Are You Sure?')"><button type="button">Delete</button></a></td>
+    </tr>
+</table>
+<div style="margin-top: 15px">
+    <a th:href="@{''(page=${classrooms.number - 1})}" th:if="${classrooms.hasPrevious()}">Previous</a>
+    <span th:text="${classrooms.number + 1}"></span>/<span th:text="${classrooms.totalPages}"></span>
+    <a th:href="@{''(page=${classrooms.number + 1})}" th:if="${classrooms.hasNext()}">Next</a>
+</div>
+</body>
+</html>
